@@ -8,6 +8,7 @@ const lineRouter  = require('./routes/lineRouter');
 
 let api = express();
 
+api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({extended: true}));
 
 
