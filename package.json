@@ -1,0 +1,24 @@
+{
+  "name": "maps-api",
+  "version": "0.0.0",
+  "description": "API for collecting information about public transportation from OpenStreetMap",
+  "author": "TheBeeTeam",
+  "private": true,
+  "repository": "https://github.com/adrianhdezm/maps-api",
+  "main": "./src/index.js",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adrianhdezm/maps-api/issues"
+  },
+  "homepage": "https://github.com/adrianhdezm/maps-api#readme",
+  "engines": {
+    "node": ">=6.9"
+  },
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0"
+  }
+}
