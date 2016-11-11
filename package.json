@@ -15,7 +15,7 @@
     "node": ">=6.9"
   },
   "scripts": {
-    "start": "node ./src/index.js"
+    "start": "node ./bin/server"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
