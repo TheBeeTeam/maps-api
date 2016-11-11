@@ -2,7 +2,7 @@
 
 const express     = require('express');
 const bodyParser  = require('body-parser');
-const lineRouter  = require('./routes/lineRouter');
+const osmRouter  = require('./routes/osmRouter');
 
 
 
@@ -11,11 +11,10 @@ let api = express();
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({extended: true}));
 
-
 api.get("/", (req, res) => res.json({name: 'Map API'}));
 
 //App routes
-api.use('/lines', lineRouter);
+api.use('/osm', osmRouter);
 
 
 module.exports = api;
