@@ -6,7 +6,6 @@ const osmRouter  = require('./routes/osmRouter');
 const radRouter  = require('./routes/radRouter');
 
 
-
 let api = express();
 
 api.use(bodyParser.json());

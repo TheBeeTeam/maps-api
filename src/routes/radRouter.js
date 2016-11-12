@@ -9,11 +9,26 @@ var router = express.Router();
 //Line Route
 router.get('/', (req, res) => {
 
-    RAD.getRadDataPromise('mg-2016-07-02T05%3a20%3a00%2b0200.xml').then((data) => {
+    RAD.getRadDataPromise(27,6,2016).then((data) => {
         return res.json(data);
     })
 
 });
+
+
+//Line Route
+router.get('/filtered', (req, res) => {
+
+    RAD.getRadDataPromise(27,6,2016).then((data) => {
+
+        data = RAD.filterArrayStep1(data);
+        data = RAD.filterArrayStep2(data);
+
+        return res.json(data);
+    })
+
+});
+
 
 
 
