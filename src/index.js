@@ -3,6 +3,7 @@
 const express     = require('express');
 const bodyParser  = require('body-parser');
 const osmRouter  = require('./routes/osmRouter');
+const radRouter  = require('./routes/radRouter');
 
 
 
@@ -15,6 +16,7 @@ api.get("/", (req, res) => res.json({name: 'Map API'}));
 
 //App routes
 api.use('/osm', osmRouter);
+api.use('/rad', radRouter);
 
 
 module.exports = api;

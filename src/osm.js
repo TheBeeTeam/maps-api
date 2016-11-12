@@ -1,31 +1,33 @@
 'use strict';
 
-const http      = require('http');
-const parser    = require('xml2js').parseString;
+const URL           = require('url');
+const fetch         = require('node-fetch');
+const parser        = require('xml2js').parseString;
+
+
+function _buildURL(entityType,entityId) {
+    return URL.format({
+        protocol: 'http',
+        host: 'api.openstreetmap.org',
+        pathname: `/api/0.6/${entityType}/${entityId}`
+    });
+}
+
 
 function getOSMResourcePromise(entityType, entityId) {
 
-    return new Promise(function(resolve, reject) {
 
-        let options = {
-            host: 'api.openstreetmap.org',
-            port: 80,
-            path: '/api/0.6/' + entityType + '/' + entityId
-        };
-
-        http.get(options, (resp) => {
-            resp
-                .on('data',(data) => {
-
-                    parser(data.toString('utf8'), (err, json) => {
-                        if (err) reject ({message: "Got error: " + err.message});
-                        return resolve(json);
-                    });
-                })
-                .on("error", (error) => reject ({message: "Got error: " + error.message}));
+    return fetch(_buildURL(entityType, entityId))
+        .then(res => res.text())
+        .then(function (xml) {
+            return new Promise(function (resolve, reject) {
+                parser(xml, {mergeAttrs: true, explicitArray: false}, (err, json) => {
+                    if (err) reject(`Error:${err}`);
+                    resolve(json);
+                });
+            })
         });
 
-    })
 }
 
 module.exports = {
