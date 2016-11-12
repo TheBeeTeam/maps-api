@@ -15,7 +15,7 @@ api.get("/", (req, res) => res.json({name: 'Map API'}));
 
 //App routes
 api.use('/osm', osmRouter);
-api.use('/rad', radRouter);
+api.use('/bikes', radRouter);
 
 
 module.exports = api;

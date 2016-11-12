@@ -59,11 +59,11 @@ function getPromise(path){
 
 function getRadDataPromise(day,month,year) {
 
-    let d = new Date(year, month, day, 0, 0, 0, 0);
+    let d = new Date(year, parseInt(month) - 1, parseInt(day));
 
     let OneDayDataPromises = [];
 
-    while (d.getDate() === day ) {
+    while (d.getDate() === parseInt(day)) {
 
         let min = (d.getMinutes() === 0) ? '00' : d.getMinutes();
         let hour = ( d.getHours() < 10) ? `0${d.getHours()}` : d.getHours();
