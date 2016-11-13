@@ -1,6 +1,8 @@
 'use strict';
 
 const express   = require('express');
+const fs        = require('fs');
+const path      = require('path');
 const RAD       = require('./../rad');
 
 var router = express.Router();
@@ -21,15 +23,40 @@ router.get('/month/:month/day/:day', (req, res) => {
 //Line Route
 router.get('/month/:month/day/:day/filtered', (req, res) => {
 
-    RAD.getRadDataPromise(req.params.day,req.params.month,2016).then((data) => {
+    let fileName =  `${req.params.day}-${req.params.month}-2016.json`;
 
-        data = RAD.filterArrayStep1(data);
-        data = RAD.filterArrayStep2(data);
+    let filePath = path.join(__dirname,'./..','./..','./json',fileName);
 
-        return res.json(data);
-    }).catch((error) => {
-        return res.json(error);
-    })
+    let fileContents;
+    try {
+        fileContents = fs.readFileSync(filePath);
+        return res.json(JSON.parse(fileContents));
+
+    } catch (err) {
+        // Here you get the error when the file was not found,
+        // but you also get any other error
+        RAD.getRadDataPromise(req.params.day,req.params.month,2016).then((raw) => {
+
+
+            let data = RAD.filterArrayStep(raw);
+
+            fs.writeFile(filePath, JSON.stringify(data), (err) => {
+
+                if(err) {
+                    return console.log(err,fileName);
+                }
+
+                console.log(`The ${fileName} was saved!`);
+            });
+
+
+            return res.json(data);
+
+        }).catch((error) => {
+            return res.json(error);
+        })
+
+    }
 
 });
 

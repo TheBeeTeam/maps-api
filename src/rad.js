@@ -86,41 +86,33 @@ function getRadDataPromise(day,month,year) {
 }
 
 
-function filterArrayStep1(raw) {
 
-    for (let i=0;i < raw.length; i++) {
-        let tempData = [];
-        for (let j=0;j < raw[i].length; j++) {
-            tempData.push(raw[i][j].id);
+
+function filterArrayStep(raw) {
+
+    let bikeTakenData = [];
+
+    raw.forEach(function (element, myIndex, array) {
+        if (myIndex === array.length-1) {
+            bikeTakenData[array.length-1] = [];
+            return;
         }
-        if (i !=  raw.length-1){
-            raw[i+1].indexes = tempData;
-        }
-    }
-    return raw;
 
-}
+        bikeTakenData[myIndex] = [];
 
+        element.forEach(function (place, myElementIndex) {
 
-function filterArrayStep2(raw) {
+            var nextIterBikes = array[myIndex+1].filter(function(elem) {
+                return elem.id === place.id;
+            });
 
-    for (let i=0;i < raw.length; i++) {
-
-        for (let j=0;j < raw[i].length; j++) {
-
-            if (raw[i].hasOwnProperty('indexes')){
-
-                raw[i].indexes.forEach( index => {
-                    if (raw[i][j].id === index) {
-                        raw[i].splice(j, 1);
-                    }
-                });
-
-                delete raw[i].indexes;
+            if (!nextIterBikes.length) {
+                bikeTakenData[myIndex].push(place);
             }
-        }
-    }
-    return raw;
+        });
+    });
+
+    return {raw:raw, filtered:bikeTakenData};
 
 }
 
@@ -128,6 +120,5 @@ function filterArrayStep2(raw) {
 
 module.exports = {
     getRadDataPromise: getRadDataPromise,
-    filterArrayStep1:filterArrayStep1,
-    filterArrayStep2:filterArrayStep2
+    filterArrayStep:filterArrayStep
 };
